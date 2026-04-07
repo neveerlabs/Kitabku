@@ -14,11 +14,17 @@
 //        * kitab: isi teks arab dengan gaya teks arab amiri dan ketik dengan keyboard arab
 
 (function() {
-  var scripts = document.getElementsByTagName('script');
-  var currentScript = scripts[scripts.length - 1];
-  var baseUrl = currentScript.src.substring(0, currentScript.src.lastIndexOf('/') + 1);
+  var getBasePath = function() {
+    var path = window.location.pathname;
+    var subfolder = '/Kitabku';
+    if (path.indexOf(subfolder) === 0) {
+      return subfolder + '/';
+    }
+    return '/';
+  };
+  var basePath = getBasePath();
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', baseUrl + 'data.json', false);
+  xhr.open('GET', basePath + 'data.json', false);
   xhr.send();
   if (xhr.status === 200) {
     try {
@@ -30,7 +36,7 @@
       window.categories = {};
     }
   } else {
-    console.error('Failed load data.json from ' + baseUrl + 'data.json', xhr.status);
+    console.error('Failed load data.json from ' + basePath + 'data.json', xhr.status);
     window.categories = {};
   }
 })();
