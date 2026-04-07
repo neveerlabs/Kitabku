@@ -13,19 +13,24 @@
 //        * header: judul yang muncul di modal kitab (misal: "Minhajut Thalibin, Hlm 54 Jld 2")
 //        * kitab: isi teks arab dengan gaya teks arab amiri dan ketik dengan keyboard arab
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'data.json', false);
-xhr.send();
-if (xhr.status === 200) {
-  try {
-    var rawData = JSON.parse(xhr.responseText);
-    delete rawData._comment;
-    window.categories = rawData;
-  } catch (e) {
-    console.error('Failed to parse data.json', e);
+(function() {
+  var scripts = document.getElementsByTagName('script');
+  var currentScript = scripts[scripts.length - 1];
+  var baseUrl = currentScript.src.substring(0, currentScript.src.lastIndexOf('/') + 1);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', baseUrl + 'data.json', false);
+  xhr.send();
+  if (xhr.status === 200) {
+    try {
+      var rawData = JSON.parse(xhr.responseText);
+      delete rawData._comment;
+      window.categories = rawData;
+    } catch (e) {
+      console.error('Parse error', e);
+      window.categories = {};
+    }
+  } else {
+    console.error('Failed load data.json from ' + baseUrl + 'data.json', xhr.status);
     window.categories = {};
   }
-} else {
-  console.error('Failed to load data.json', xhr.status);
-  window.categories = {};
-}
+})();
