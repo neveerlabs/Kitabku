@@ -14,7 +14,7 @@
 //        * kitab: isi teks arab dengan gaya teks arab amiri dan ketik dengan keyboard arab
 
 var xhr = new XMLHttpRequest();
-xhr.open('GET', '/data.json', false);
+xhr.open('GET', 'data.json', false);
 xhr.send();
 if (xhr.status === 200) {
   try {
