@@ -1,0 +1,1 @@
+console.log('Dilarang buka DevTools ya, nanti error sayang :(');

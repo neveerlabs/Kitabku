@@ -1,0 +1,6 @@
+services:
+  kitabku:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/kitabku:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped

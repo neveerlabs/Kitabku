@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitabku</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="img/kubah.png" alt="Logo" class="logo">
+            <h1 class="site-title">Kitabku</h1>
+        </div>
+    </header>
+    <div class="lamp-container">
+        <div class="string"></div>
+        <img src="img/bulan.png" alt="bulan" class="lamp">
+    </div>
+    <main class="main-content">
+        <div class="card-wrapper">
+            <img src="img/alquran.png" alt="Al-Qur'an" class="dome-image">
+            <div class="card">
+                <div class="card-header-sticky">
+                    <h2 class="card-title">Daftar Pembahasan</h2>
+                </div>
+                <ul class="lesson-list" id="category-list"></ul>
+            </div>
+        </div>
+    </main>
+    <div class="action-links">
+        <button class="action-link" id="licenseBtn">Licensi</button>
+        <span class="separator">•</span>
+        <button class="action-link" id="helpBtn">Kebijakan & Bantuan</button>
+    </div>
+    <div class="modal" id="licenseModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Licensi MIT</h3>
+                <button class="close-modal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="dropcap">Dengan ini, saya menyatakan bahwa seluruh isi dan data di dalam website ini semuanya <strong>benar</strong> dan <strong>dapat dipertanggungjawabkan</strong>. Konten masih dalam tahap <strong>revisi</strong> dan <strong>pengembangan.</strong></p><br>
+                <p>Dibuat oleh: <strong>M. Syalman Al Farizi</strong></p><br>
+                <p>Copyright © 2026 M. Syalman Al Farizi. Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p><br>
+                <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p><br>
+                <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="helpModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Kebijakan & Bantuan</h3>
+                <button class="close-modal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Kebijakan Privasi</strong></p>
+                <p>Website ini tidak mengambil data pribadi apapun dari pengunjung kecuali data lokasi yang Anda berikan secara sukarela untuk keperluan jadwal adzan. Data lokasi hanya disimpan di perangkat Anda (localStorage) dan tidak dikirim ke server manapun. Anda dapat menghapusnya kapan saja.</p>
+                <p>Kami tidak menggunakan cookies, tidak melacak jejak digital, dan tidak menyimpan informasi apapun tentang aktivitas anda. Semua konten bersifat informatif dan bebas digunakan.</p>
+                <p><strong>Bantuan & Kontak</strong></p>
+                <p>Jika menemukan kesalahan penulisan kata atau penjelasan yang kurang tepat, atau ada saran dan masukan, silakan hubungi kami melalui:</p>
+                <div class="contact-list">
+                    <a href="https://instagram.com/neveerlabs" target="_blank" class="contact-item"><i class="fab fa-instagram"></i> neveerlabs</a>
+                    <a href="https://facebook.com/neveerlabs" target="_blank" class="contact-item"><i class="fab fa-facebook"></i> neveerlabs</a>
+                    <a href="https://github.com/neveerlabs" target="_blank" class="contact-item"><i class="fab fa-github"></i> neveerlabs</a>
+                    <a href="mailto:userlinuxorg@gmail.com" class="contact-item"><i class="far fa-envelope"></i> userlinuxorg@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal kitab-modal" id="kitabModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3 id="kitabModalHeader">Judul Kitab</h3>
+            </div>
+            <div class="modal-body" id="kitabModalBody"></div>
+        </div>
+    </div>
+    <div class="modal" id="notificationModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Pemberitahuan</h3>
+                <button class="close-modal" id="closeNotificationModal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body" id="notificationMessage"></div>
+        </div>
+    </div>
+    <div class="modal" id="locationPermissionModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Pemberitahuan</h3>
+                <button class="close-modal" id="closeLocationPermissionModal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Kami menggunakan fitur jadwal adzan dan alarm sebelum adzan. Untuk mendapatkan jadwal adzan yang akurat sesuai lokasi Anda, kami memerlukan izin mengakses lokasi perangkat anda. Data lokasi hanya disimpan didalam perangkat Anda dan tidak dikirim ke server manapun.</p>
+                <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+                    <button class="action-link" id="allowLocationBtn" style="background: #c4a27a; color: white; padding: 10px 20px; border-radius: 40px;">Izinkan</button>
+                    <button class="action-link" id="denyLocationBtn" style="background: #a88664; color: white; padding: 10px 20px; border-radius: 40px;">Tolak</button>
+                </div>
+                <p style="font-size: 0.8rem; color: #7b5f44; margin-top: 15px; text-align: center;">Semua data disimpan secara terenkripsi</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="locationResultModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Informasi Lokasi</h3>
+                <button class="close-modal" id="closeLocationResultModal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body" id="locationResultMessage"></div>
+        </div>
+    </div>
+    <div class="modal alarm-modal" id="alarmModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Perhatian semuanya</h3>
+                <button class="close-modal" id="closeAlarmModal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body" id="alarmMessage"></div>
+        </div>
+    </div>
+    <div class="modal adzan-modal" id="adzanModal">
+        <div class="modal-content paper-texture">
+            <div class="modal-header">
+                <h3>Perhatian semuanya</h3>
+                <button class="close-modal" id="closeAdzanModal"><i class="far fa-times-circle"></i></button>
+            </div>
+            <div class="modal-body" id="adzanMessage"></div>
+        </div>
+    </div>
+    <script src="js/PrayTimes.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/kitab.js"></script>
+    <script>
+        (function() {
+            const categoryList = document.getElementById('category-list');
+            if (categoryList) {
+                let html = '';
+                for (const [key, cat] of Object.entries(categories)) {
+                    html += `<li><a href="id/daftar.html?cat=${key}">${cat.title}</a></li>`;
+                }
+                categoryList.innerHTML = html;
+            }
+        })();
+    </script>
+</body>
+</html>
