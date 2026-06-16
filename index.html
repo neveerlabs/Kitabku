@@ -15,6 +15,23 @@
             <img src="img/kubah.png" alt="Logo" class="logo">
             <h1 class="site-title">Kitabku</h1>
         </div>
+        <div class="header-right">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari bab atau topik..." aria-label="Cari">
+                </div>
+                <button class="search-icon-mobile" id="searchIconMobile" aria-label="Cari">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="search-results-desktop"></div>
+            </div>
+            <button class="dropdown-btn" id="dropdownBtn"><i class="fas fa-ellipsis-v"></i></button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <button class="dropdown-item" id="dropdownLicense">Licensi</button>
+                <button class="dropdown-item" id="dropdownHelp">Kebijakan & Bantuan</button>
+            </div>
+        </div>
     </header>
     <div class="lamp-container">
         <div class="string"></div>
@@ -31,11 +48,6 @@
             </div>
         </div>
     </main>
-    <div class="action-links">
-        <button class="action-link" id="licenseBtn">Licensi</button>
-        <span class="separator">•</span>
-        <button class="action-link" id="helpBtn">Kebijakan & Bantuan</button>
-    </div>
     <div class="modal" id="licenseModal">
         <div class="modal-content paper-texture">
             <div class="modal-header">
@@ -130,6 +142,16 @@
                 <button class="close-modal" id="closeAdzanModal"><i class="far fa-times-circle"></i></button>
             </div>
             <div class="modal-body" id="adzanMessage"></div>
+        </div>
+    </div>
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-overlay-content">
+            <div class="search-overlay-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchOverlayInput" placeholder="Cari bab atau topik..." autofocus>
+                <button class="search-overlay-close" id="searchOverlayClose">&times;</button>
+            </div>
+            <div class="search-results" id="searchResultsOverlay"></div>
         </div>
     </div>
     <script src="js/PrayTimes.js"></script>
