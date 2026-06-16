@@ -45,11 +45,34 @@ function hideNotification() {
 if (closeNotificationBtn) {
     closeNotificationBtn.addEventListener('click', hideNotification);
 }
-if (licenseBtn && licenseModal) {
-    licenseBtn.addEventListener('click', () => openModal(licenseModal));
+
+const dropdownBtn = document.getElementById('dropdownBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const dropdownLicense = document.getElementById('dropdownLicense');
+const dropdownHelp = document.getElementById('dropdownHelp');
+
+if (dropdownBtn && dropdownMenu) {
+    dropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+    });
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.header-right')) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
 }
-if (helpBtn && helpModal) {
-    helpBtn.addEventListener('click', () => openModal(helpModal));
+if (dropdownLicense && licenseModal) {
+    dropdownLicense.addEventListener('click', function() {
+        dropdownMenu.classList.remove('show');
+        openModal(licenseModal);
+    });
+}
+if (dropdownHelp && helpModal) {
+    dropdownHelp.addEventListener('click', function() {
+        dropdownMenu.classList.remove('show');
+        openModal(helpModal);
+    });
 }
 
 closeButtons.forEach(button => {
@@ -120,13 +143,17 @@ if (closeLocationPermissionBtn) {
 }
 function reverseGeocode(lat, lon, callback) {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     fetch(url, {
         headers: {
             'User-Agent': 'Kitabku (userlinuxorg@gmail.com)'
-        }
+        },
+        signal: controller.signal
     })
     .then(response => response.json())
     .then(data => {
+        clearTimeout(timeoutId);
         if (data && data.display_name) {
             callback(data.display_name);
         } else {
@@ -134,6 +161,7 @@ function reverseGeocode(lat, lon, callback) {
         }
     })
     .catch(error => {
+        clearTimeout(timeoutId);
         console.error('Reverse geocode error:', error);
         callback(null);
     });
@@ -143,42 +171,70 @@ function watchLocation(resolve, reject) {
         reject(new Error('Geolocation not supported'));
         return;
     }
-    locationWatchId = navigator.geolocation.watchPosition(
-        (position) => {
-            const acc = position.coords.accuracy;
-            if (!bestLocation || acc < bestLocation.accuracy) {
-                bestLocation = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    accuracy: acc,
-                    timestamp: position.timestamp
-                };
-                // berhenti search jika akurasi < 10 meter
-                if (acc < 10) {
-                    stopWatching();
-                    resolve(bestLocation);
-                }
+    let best = null;
+    let resolved = false;
+    const ACCURACY_THRESHOLD = 5;
+    const TIMEOUT_MS = 45000;
+    const startTime = Date.now();
+
+    const success = (position) => {
+        const coords = position.coords;
+        const acc = coords.accuracy;
+        if (!best || acc < best.accuracy) {
+            best = {
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+                accuracy: acc,
+                altitude: coords.altitude || null,
+                altitudeAccuracy: coords.altitudeAccuracy || null,
+                heading: coords.heading || null,
+                speed: coords.speed || null,
+                timestamp: position.timestamp
+            };
+        }
+        if (acc <= ACCURACY_THRESHOLD && !resolved) {
+            resolved = true;
+            stopWatching();
+            resolve(best);
+        }
+    };
+
+    const error = (err) => {
+        if (!resolved) {
+            resolved = true;
+            stopWatching();
+            reject(err);
+        }
+    };
+
+    locationWatchId = navigator.geolocation.watchPosition(success, error, {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+    });
+
+    const timeoutHandler = setTimeout(() => {
+        if (!resolved) {
+            resolved = true;
+            stopWatching();
+            if (best) {
+                resolve(best);
+            } else {
+                reject(new Error('Timeout'));
             }
-        },
-        (error) => {
-            stopWatching();
-            reject(error);
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
         }
-    );
-    setTimeout(() => {
-        if (bestLocation) {
-            stopWatching();
-            resolve(bestLocation);
-        } else {
-            stopWatching();
-            reject(new Error('Timeout'));
-        }
-    }, 30000);
+    }, TIMEOUT_MS);
+
+    const originalResolve = resolve;
+    const originalReject = reject;
+    resolve = (value) => {
+        clearTimeout(timeoutHandler);
+        originalResolve(value);
+    };
+    reject = (reason) => {
+        clearTimeout(timeoutHandler);
+        originalReject(reason);
+    };
 }
 function stopWatching() {
     if (locationWatchId !== null) {
@@ -196,22 +252,29 @@ if (allowLocationBtn) {
                     latitude: position.latitude,
                     longitude: position.longitude,
                     accuracy: position.accuracy,
+                    altitude: position.altitude,
+                    altitudeAccuracy: position.altitudeAccuracy,
+                    heading: position.heading,
+                    speed: position.speed,
                     timestamp: Date.now()
                 };
                 const encrypted = btoa(JSON.stringify(locData));
                 localStorage.setItem('kitabku_location', encrypted);
 
                 reverseGeocode(locData.latitude, locData.longitude, address => {
-                    let locationInfo = `<p>Lokasi anda berhasil didapatkan:</p>
-                        <p>Latitude: ${locData.latitude}<br>Longitude: ${locData.longitude}<br>Akurasi: ${locData.accuracy} meter<br>Timestamp: ${new Date(locData.timestamp).toLocaleString()}</p>`;
+                    let locationInfo = `<p>Lokasi anda berhasil didapatkan dengan presisi tinggi:</p>
+                        <p>Latitude: ${locData.latitude}<br>Longitude: ${locData.longitude}<br>Akurasi: ${locData.accuracy} meter<br>Altitude: ${locData.altitude !== null ? locData.altitude + ' meter' : 'Tidak tersedia'}<br>Altitude Accuracy: ${locData.altitudeAccuracy !== null ? locData.altitudeAccuracy + ' meter' : 'Tidak tersedia'}<br>Heading: ${locData.heading !== null ? locData.heading + '°' : 'Tidak tersedia'}<br>Speed: ${locData.speed !== null ? locData.speed + ' m/s' : 'Tidak tersedia'}<br>Timestamp: ${new Date(locData.timestamp).toLocaleString()}</p>`;
                     if (address) {
                         locationInfo += `<p>Alamat: ${address}<br></p>`;
                     } else {
-                        locationInfo += `<p>Alamat tidak dapat ditemukan! Pastikan GPS diperangkat anda aktif, terima kasih.</p>`;
+                        locationInfo += `<p>Alamat tidak dapat ditemukan! Pastikan GPS diperangkat anda aktif dan coba lagi, terima kasih.</p>`;
                     }
-                    // Tambahkan peringatan jika akurasi > 50 meter
                     if (locData.accuracy > 50) {
-                        locationInfo += `<p style="color: #cc0000; font-weight: bold;">⚠️ Akurasi lokasi ${locData.accuracy} meter (di atas 50m). Jadwal adzan mungkin kurang presisi. Untuk hasil terbaik, pastikan Anda di luar ruangan dengan sinyal GPS jelas.</p>`;
+                        locationInfo += `<p style="color: #cc0000; font-weight: bold;">⚠️ Akurasi lokasi ${locData.accuracy} meter (di atas 50m). Untuk hasil terbaik, pastikan Anda di luar ruangan dengan sinyal GPS jelas.</p>`;
+                    } else if (locData.accuracy > 10) {
+                        locationInfo += `<p style="color: #cc6600; font-weight: bold;">⚠️ Akurasi lokasi ${locData.accuracy} meter (antara 10-50m). Jadwal adzan masih dapat digunakan, namun presisi maksimal lebih baik di luar ruangan.</p>`;
+                    } else {
+                        locationInfo += `<p style="color: #006600; font-weight: bold;">✅ Akurasi lokasi sangat baik (${locData.accuracy} meter). Jadwal adzan akan sangat presisi.</p>`;
                     }
                     locationInfo += `<p>Terima kasih telah mengizinkan akses lokasi anda. Jadwal adzan akan kami buat menggunakan penyesuaian dari lokasi anda.</p>`;
                     locationResultMessage.innerHTML = locationInfo;
@@ -220,12 +283,12 @@ if (allowLocationBtn) {
                 setupPrayerTimes(locData);
             },
             (error) => {
-                let msg = 'Gagal mendapatkan lokasi. ';
+                let msg = 'Gagal mendapatkan lokasi presisi. ';
                 if (error.code === 1) msg += 'Izin ditolak.';
-                else if (error.code === 2) msg += 'Posisi tidak tersedia.';
-                else if (error.code === 3) msg += 'Waktu habis.';
+                else if (error.code === 2) msg += 'Posisi tidak tersedia. Pastikan GPS aktif dan di luar ruangan.';
+                else if (error.code === 3) msg += 'Waktu habis. Coba lagi dengan sinyal yang lebih baik.';
                 else msg += error.message;
-                locationResultMessage.innerHTML = `<p>${msg}. Pastikan GPS aktif dan coba lagi, terima kasih.</p>`;
+                locationResultMessage.innerHTML = `<p>${msg}</p><p>Jika ingin menggunakan perkiraan lokasi berdasarkan IP (kurang akurat), refresh halaman dan pilih "Izinkan" kembali. Namun disarankan menggunakan GPS untuk presisi maksimal.</p>`;
                 openModal(locationResultModal);
             }
         );
@@ -236,7 +299,7 @@ if (denyLocationBtn) {
         closeModal(locationPermissionModal);
         stopWatching();
         sessionStorage.setItem('locationPermissionDenied', 'true');
-        locationResultMessage.innerHTML = '<p>Anda menolak izin lokasi! Fitur alarm adzan tidak akan berfungsi karena jadwal adzan belom dibuat. Anda dapat mengaktifkannya kembali dengan cara berpindah halaman atau refresh browser, terima kasih.</p>';
+        locationResultMessage.innerHTML = '<p>Anda menolak izin lokasi! Fitur alarm adzan tidak akan berfungsi karena jadwal adzan belum dibuat. Anda dapat mengaktifkannya kembali dengan cara berpindah halaman atau refresh browser, terima kasih.</p>';
         openModal(locationResultModal);
     });
 }
@@ -384,5 +447,197 @@ if (closeAdzanBtn) {
     });
 }
 
-// Initialize prayer times on page load
 document.addEventListener('DOMContentLoaded', initPrayerTimes);
+
+(function() {
+    function getBasePath() {
+        var path = window.location.pathname;
+        var subfolder = '/Kitabku';
+        if (path.indexOf(subfolder) === 0) {
+            return subfolder + '/';
+        }
+        return '/';
+    }
+    var basePath = getBasePath();
+
+    const searchContainer = document.querySelector('.search-container');
+    if (!searchContainer) return;
+
+    const searchBoxDesktop = searchContainer.querySelector('.search-box');
+    const searchInputDesktop = searchBoxDesktop ? searchBoxDesktop.querySelector('input') : null;
+    const searchResultsDesktop = searchContainer.querySelector('.search-results-desktop');
+
+    const searchIconMobile = document.getElementById('searchIconMobile');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchOverlayInput = document.getElementById('searchOverlayInput');
+    const searchResultsOverlay = document.getElementById('searchResultsOverlay');
+    const searchOverlayClose = document.getElementById('searchOverlayClose');
+
+    function performSearch(query) {
+        query = query.trim().toLowerCase();
+        const results = [];
+
+        if (query.length === 0) {
+            return results;
+        }
+
+        if (typeof categories !== 'undefined' && categories) {
+            for (const [key, cat] of Object.entries(categories)) {
+                if (cat.title.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'bab',
+                        title: cat.title,
+                        link: basePath + 'id/daftar.html?cat=' + key
+                    });
+                }
+                if (cat.topics && Array.isArray(cat.topics)) {
+                    cat.topics.forEach(topic => {
+                        if (topic.title.toLowerCase().includes(query)) {
+                            results.push({
+                                type: 'artikel',
+                                title: topic.title,
+                                link: basePath + 'id/artikel.html?cat=' + key + '&topic=' + topic.id
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        return results.slice(0, 20);
+    }
+
+    function renderDesktopResults(results) {
+        if (!searchResultsDesktop) return;
+        searchResultsDesktop.innerHTML = '';
+        if (results.length === 0) {
+            searchResultsDesktop.innerHTML = '<div class="no-result">Tidak ada hasil</div>';
+        } else {
+            results.forEach(item => {
+                const a = document.createElement('a');
+                a.className = 'result-item';
+                a.href = item.link;
+                a.innerHTML = `${item.title} <span class="result-type">${item.type === 'bab' ? 'Bab' : 'Artikel'}</span>`;
+                searchResultsDesktop.appendChild(a);
+            });
+        }
+        searchResultsDesktop.classList.add('show');
+    }
+
+    function renderOverlayResults(results) {
+        if (!searchResultsOverlay) return;
+        searchResultsOverlay.innerHTML = '';
+        if (results.length === 0) {
+            searchResultsOverlay.innerHTML = '<div class="no-result">Tidak ada hasil</div>';
+        } else {
+            results.forEach(item => {
+                const a = document.createElement('a');
+                a.className = 'result-item';
+                a.href = item.link;
+                a.innerHTML = `${item.title} <span class="result-type">${item.type === 'bab' ? 'Bab' : 'Artikel'}</span>`;
+                searchResultsOverlay.appendChild(a);
+            });
+        }
+    }
+
+    function openMobileSearch(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if (searchOverlay) {
+            searchOverlay.classList.add('show');
+            if (searchOverlayInput) {
+                searchOverlayInput.value = '';
+                searchOverlayInput.focus();
+            }
+            renderOverlayResults([]);
+        }
+    }
+
+    function closeMobileSearch(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if (searchOverlay) {
+            searchOverlay.classList.remove('show');
+        }
+    }
+
+    if (searchIconMobile) {
+        searchIconMobile.addEventListener('click', openMobileSearch);
+        searchIconMobile.addEventListener('touchstart', function(e) {
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+            openMobileSearch(e);
+        }, { passive: false });
+    }
+
+    if (searchOverlayClose) {
+        searchOverlayClose.addEventListener('click', closeMobileSearch);
+        searchOverlayClose.addEventListener('touchstart', function(e) {
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+            closeMobileSearch(e);
+        }, { passive: false });
+    }
+
+    if (searchOverlay) {
+        searchOverlay.addEventListener('click', function(e) {
+            if (e.target === searchOverlay) {
+                closeMobileSearch(e);
+            }
+        });
+    }
+
+    if (searchInputDesktop && searchResultsDesktop) {
+        let desktopTimeout;
+        searchInputDesktop.addEventListener('input', function(e) {
+            clearTimeout(desktopTimeout);
+            const query = this.value;
+            desktopTimeout = setTimeout(() => {
+                const results = performSearch(query);
+                renderDesktopResults(results);
+            }, 200);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchContainer.contains(e.target)) {
+                searchResultsDesktop.classList.remove('show');
+            }
+        });
+
+        searchInputDesktop.addEventListener('blur', function() {
+            setTimeout(() => {
+                searchResultsDesktop.classList.remove('show');
+            }, 200);
+        });
+    }
+
+    let overlayTimeout;
+    if (searchOverlayInput) {
+        searchOverlayInput.addEventListener('input', function(e) {
+            clearTimeout(overlayTimeout);
+            const query = this.value;
+            overlayTimeout = setTimeout(() => {
+                const results = performSearch(query);
+                renderOverlayResults(results);
+            }, 200);
+        });
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (searchOverlay && searchOverlay.classList.contains('show')) {
+                searchOverlay.classList.remove('show');
+            }
+            if (searchResultsDesktop) {
+                searchResultsDesktop.classList.remove('show');
+            }
+        }
+    });
+
+})();
