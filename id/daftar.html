@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitabku - Daftar</title>
+    <title>Kitabku - Artikel</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/daftar.css">
+    <link rel="stylesheet" href="../css/artikel.css">
     <link rel="icon" type="image/png" href="../img/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="artikel-page">
     <header class="header">
         <div class="logo-container">
             <img src="../img/kubah.png" alt="Logo" class="logo">
@@ -44,11 +44,11 @@
     <main class="main-content">
         <div class="card-wrapper">
             <img src="../img/alquran.png" alt="Al-Qur'an" class="dome-image">
-            <div class="card">
+            <div class="card" id="artikel-card">
                 <div class="card-header-sticky">
-                    <h2 class="card-title" id="category-title">Daftar Pembahasan</h2>
+                    <h2 class="card-title" id="artikel-judul"></h2>
                 </div>
-                <ul class="lesson-list" id="topic-list"></ul>
+                <div class="artikel-isi" id="artikel-isi"></div>
             </div>
         </div>
     </main>
@@ -161,38 +161,7 @@
     <script src="../js/PrayTimes.js"></script>
     <script src="../js/script.js"></script>
     <script src="../js/data.js"></script>
-    <script src="../js/daftar.js"></script>
     <script src="../js/kitab.js"></script>
-    <script>
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const catKey = urlParams.get('cat');
-            const breadcrumb = document.getElementById('breadcrumb');
-            const categoryTitle = document.getElementById('category-title');
-            const topicList = document.getElementById('topic-list');
-
-            function showError(message) {
-                document.title = 'Kitabku - Error';
-                breadcrumb.innerHTML = `<a href="../index.html">Home</a> <span class="separator">›</span> <span>Error</span>`;
-                categoryTitle.textContent = 'Terjadi masalah';
-                topicList.innerHTML = `<p>${message}</p><p style="text-align: center; margin-top: 20px;"><a href="../index.html" style="display: inline-block; padding: 8px 16px; background: #c4a27a; color: white; border-radius: 40px; text-decoration: none;">Kembali ke Home</a></p>`;
-            }
-            if (!catKey) {
-                showError('Tidak dapat menampilkan halaman untuk anda! Silahkan refresh halaman browser anda dan masukkan alamat url yang benar, terima kasih.');
-            } else if (!categories[catKey]) {
-                showError('Tidak dapat menampilkan halaman untuk anda! Silahkan refresh halaman browser anda dan masukkan alamat url yang benar, terima kasih.');
-            } else {
-                const category = categories[catKey];
-                document.title = `Kitabku - ${category.title}`;
-                breadcrumb.innerHTML = `<a href="../index.html">Home</a> <span class="separator">›</span> <span>${category.title}</span>`;
-                categoryTitle.textContent = category.title;
-                let listHtml = '';
-                category.topics.forEach(topic => {
-                    listHtml += `<li><a href="artikel.html?cat=${catKey}&topic=${topic.id}">${topic.title}</a></li>`;
-                });
-                topicList.innerHTML = listHtml;
-            }
-        })();
-    </script>
+    <script src="../js/artikel.js"></script>
 </body>
 </html>
