@@ -143,12 +143,17 @@
       {
         "id": "syarat-wudhu",
         "title": "Syarat Wudhu",
-        "content": " ",
+        "content": "Syarat berwudhu salah sebagai berikut: ((Lihat Hlm 23)) **nah itu dia contohnya** !!Tapi itu hanya sekedar contoh aja ya.!!<br>\n\n<p>Tata cara wudhu berdasarkan dalil:</p>\n<ul>\n  <li><strong>Niat</strong> - ((Lihat Hlm 22 Jld 1))</li>\n  <li>**Membasuh muka**</li>\n  <li>Membasuh tangan</li>\n  <li>!!Catatan: jangan lupa tertib!!</li>\n</ul>",
         "tags": [
           {
-            "tag": "",
-            "header": "",
-            "kitab": "\n<p dir=\"rtl\" style=\"font-family: 'Amiri', serif; font-size: 1.2rem;\"></p>\n                        "
+            "tag": "Lihat Hlm 23",
+            "header": "Contohhhhh",
+            "kitab": "\n<p dir=\"rtl\" style=\"font-family: 'Amiri', serif; font-size: 1.2rem;\">محمد شلمان الفرىزى</p>\n                        "
+          },
+          {
+            "tag": "Lihat Hlm 22 Jld 1",
+            "header": "contoh jugaaa",
+            "kitab": "gagagagagga"
           }
         ]
       }
@@ -163,7 +168,7 @@
         "content": " ",
         "tags": [
           {
-            "tag": "",
+            "tag": "Lihat Hllm 12",
             "header": "",
             "kitab": "\n<p dir=\"rtl\" style=\"font-family: 'Amiri', serif; font-size: 1.2rem;\"></p>\n                        "
           }
