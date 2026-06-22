@@ -178,21 +178,16 @@
                     }
 
                     function toggleBlock(e) {
-                        if (e && e.target === showBtn) {
-                            // tombol diklik, tetap lanjut toggle
-                        }
                         block.classList.toggle('expanded');
                         if (block.classList.contains('expanded')) {
                             block.classList.remove('has-overflow');
                         } else {
-                            // setelah collapse, cek ulang overflow
                             requestAnimationFrame(function() {
                                 setTimeout(checkOverflow, 50);
                             });
                         }
                     }
 
-                    // Hapus listener lama (kalau ada) biar nggak dobel
                     questionDiv.removeEventListener('click', toggleBlock);
                     showBtn.removeEventListener('click', toggleBlock);
                     
@@ -202,12 +197,10 @@
                         toggleBlock(e);
                     });
 
-                    // Cek overflow setelah render
                     requestAnimationFrame(function() {
                         setTimeout(checkOverflow, 100);
                     });
 
-                    // Update saat resize
                     window.addEventListener('resize', function() {
                         if (!block.classList.contains('expanded')) {
                             checkOverflow();
@@ -216,49 +209,101 @@
                 });
             }
 
-            // Jalankan init setelah konten dimasukkan
             setTimeout(initQuizBlocks, 50);
 
-            // Preview carousel (tetap sama seperti aslinya)
             document.querySelectorAll('.preview-container').forEach(function(container) {
                 const mediaElements = container.querySelectorAll('.preview-media');
                 const dots = container.querySelectorAll('.preview-dot');
                 const prevBtn = container.querySelector('.preview-nav.prev');
                 const nextBtn = container.querySelector('.preview-nav.next');
                 let currentIndex = 0;
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let isSwiping = false;
 
                 function showSlide(index) {
+                    if (!mediaElements.length) return;
+                    index = (index + mediaElements.length) % mediaElements.length;
                     mediaElements.forEach(function(m) { m.classList.remove('active'); });
                     dots.forEach(function(d) { d.classList.remove('active'); });
                     if (mediaElements[index]) {
                         mediaElements[index].classList.add('active');
-                        dots[index].classList.add('active');
+                        if (dots[index]) dots[index].classList.add('active');
                         currentIndex = index;
                     }
                 }
 
+                function goPrev(e) {
+                    if (e) e.stopPropagation();
+                    showSlide(currentIndex - 1);
+                }
+
+                function goNext(e) {
+                    if (e) e.stopPropagation();
+                    showSlide(currentIndex + 1);
+                }
+
                 if (prevBtn) {
-                    prevBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const newIndex = (currentIndex - 1 + mediaElements.length) % mediaElements.length;
-                        showSlide(newIndex);
-                    });
+                    prevBtn.removeEventListener('click', goPrev);
+                    prevBtn.addEventListener('click', goPrev);
                 }
                 if (nextBtn) {
-                    nextBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const newIndex = (currentIndex + 1) % mediaElements.length;
-                        showSlide(newIndex);
-                    });
+                    nextBtn.removeEventListener('click', goNext);
+                    nextBtn.addEventListener('click', goNext);
                 }
 
                 dots.forEach(function(dot) {
+                    dot.removeEventListener('click', function() {});
                     dot.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const index = parseInt(this.getAttribute('data-index'), 10);
-                        showSlide(index);
+                        if (!isNaN(index)) showSlide(index);
                     });
                 });
+
+                container.addEventListener('touchstart', function(e) {
+                    const touch = e.touches[0];
+                    if (touch) {
+                        touchStartX = touch.clientX;
+                        touchStartY = touch.clientY;
+                        isSwiping = false;
+                    }
+                }, { passive: true });
+
+                container.addEventListener('touchmove', function(e) {
+                    if (touchStartX === 0) return;
+                    const touch = e.touches[0];
+                    if (!touch) return;
+                    const deltaX = touch.clientX - touchStartX;
+                    const deltaY = touch.clientY - touchStartY;
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
+                        isSwiping = true;
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                container.addEventListener('touchend', function(e) {
+                    if (!isSwiping || touchStartX === 0) {
+                        touchStartX = 0;
+                        touchStartY = 0;
+                        return;
+                    }
+                    const touch = e.changedTouches[0];
+                    if (!touch) return;
+                    const deltaX = touch.clientX - touchStartX;
+                    if (Math.abs(deltaX) > 30) {
+                        if (deltaX < 0) {
+                            goNext(e);
+                        } else {
+                            goPrev(e);
+                        }
+                    }
+                    touchStartX = 0;
+                    touchStartY = 0;
+                    isSwiping = false;
+                }, { passive: true });
+
+                showSlide(0);
             });
         }
         if (breadcrumb) {
