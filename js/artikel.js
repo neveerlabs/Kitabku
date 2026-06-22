@@ -73,7 +73,7 @@
         processed = processed.replace(/<quiz>([\s\S]*?)<\/quiz>\s*<answer>([\s\S]*?)<\/answer>/g, function(match, question, answer) {
             return `<div class="quiz-block">
                 <div class="quiz-question">
-                    <div class="quiz-question-text">${question}</div>
+                    <span class="quiz-question-text">${question}</span>
                     <button class="quiz-show-more">Lihat selengkapnya</button>
                 </div>
                 <div class="quiz-answer">${answer}</div>
@@ -164,23 +164,62 @@
         if (isi) {
             isi.innerHTML = processContent(topic.content, topic.tags);
 
-            document.querySelectorAll('.quiz-block').forEach(function(block) {
-                const questionDiv = block.querySelector('.quiz-question');
-                const showBtn = block.querySelector('.quiz-show-more');
-                if (questionDiv) {
-                    questionDiv.addEventListener('click', function(e) {
-                        if (e.target === showBtn) return;
+            function initQuizBlocks() {
+                document.querySelectorAll('.quiz-block').forEach(function(block) {
+                    const textSpan = block.querySelector('.quiz-question-text');
+                    const showBtn = block.querySelector('.quiz-show-more');
+                    const questionDiv = block.querySelector('.quiz-question');
+
+                    function checkOverflow() {
+                        if (textSpan) {
+                            const isOverflow = textSpan.scrollWidth > textSpan.clientWidth;
+                            block.classList.toggle('has-overflow', isOverflow);
+                        }
+                    }
+
+                    function toggleBlock(e) {
+                        if (e && e.target === showBtn) {
+                            // tombol diklik, tetap lanjut toggle
+                        }
                         block.classList.toggle('expanded');
-                    });
-                }
-                if (showBtn) {
+                        if (block.classList.contains('expanded')) {
+                            block.classList.remove('has-overflow');
+                        } else {
+                            // setelah collapse, cek ulang overflow
+                            requestAnimationFrame(function() {
+                                setTimeout(checkOverflow, 50);
+                            });
+                        }
+                    }
+
+                    // Hapus listener lama (kalau ada) biar nggak dobel
+                    questionDiv.removeEventListener('click', toggleBlock);
+                    showBtn.removeEventListener('click', toggleBlock);
+                    
+                    questionDiv.addEventListener('click', toggleBlock);
                     showBtn.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        block.classList.add('expanded');
+                        toggleBlock(e);
                     });
-                }
-            });
 
+                    // Cek overflow setelah render
+                    requestAnimationFrame(function() {
+                        setTimeout(checkOverflow, 100);
+                    });
+
+                    // Update saat resize
+                    window.addEventListener('resize', function() {
+                        if (!block.classList.contains('expanded')) {
+                            checkOverflow();
+                        }
+                    });
+                });
+            }
+
+            // Jalankan init setelah konten dimasukkan
+            setTimeout(initQuizBlocks, 50);
+
+            // Preview carousel (tetap sama seperti aslinya)
             document.querySelectorAll('.preview-container').forEach(function(container) {
                 const mediaElements = container.querySelectorAll('.preview-media');
                 const dots = container.querySelectorAll('.preview-dot');
