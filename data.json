@@ -3,6 +3,12 @@
     "title": "Bab Sholat",
     "topics": [
       {
+        "id": "sah-sholat",
+        "title": "Syarat syarat sahnya sholat",
+        "content": "",
+        "tags": []
+      },
+      {
         "id": "keutamaan-sholat-isya-shubuh",
         "title": "Keutamaan Sholat Isya & Shubuh",
         "content": "Dari sayyidina Utsman bin Affan R.A, ia mendengar ucapan dari Rosulullah SAW bersabda:<br>\n&emsp;**<i>\"Barang siapa yang sholat berjama'ah Isya, maka kaya kaya orang tersebut melaksanakan sholat setengah malam. Dan barang siapa yang sholat Shubuh berjama'ah, maka kaya kaya orang tersebut melaksanakan sholat satu malam penuh.\"</i>** HR. Muslim<br><br>\n\nHadits dari imam Tirmidzi pun menguatkan bahwa hadits diatas tersebut benar dan shoheh. ((Lihat Hlm 336))<br><br>\n\nDari Abu Hurairah R.A, ia berkata dari Rosulullah SAW:<br>\n&emsp;**<i>\"Seandainya mereka mengetahui ganjaran yang ada di sholat Isya dan Shubuh, niscaya mereka akan melaksanakan keduanya meskipun dengan merangkak (dalam keadaan ripuh)\"</i>**((Lihat Hlm 337))<br><br>\n\nJuga dari Abu Hurairah R.A, ia berkata bahwa Rasulullah SAW bersabda:<br>\n&emsp;**<i>\"Tidak ada sholat yang lebih berat bagi orang-orang yang munafik dari pada sholat Isya dan Shubuh. Seandainya mereka (orang munafik) mengetahui apa yang ada didalam keduanya, niscaya mereka akan mendatangi (melaksanakan)-nya, meskipun dalam keadaan merangkak\"</i>** ((Lihat Hlmn 337))",
@@ -36,12 +42,6 @@
           }
         ],
         "previews": []
-      },
-      {
-        "id": "sah-sholat",
-        "title": "Syarat syarat sahnya sholat",
-        "content": "",
-        "tags": []
       }
     ]
   }
