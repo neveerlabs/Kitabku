@@ -48,5 +48,9 @@
   "puasa": {
     "title": "Bab Puasa",
     "topics": []
+  },
+  "wudhu": {
+    "title": "Bab Wudhu",
+    "topics": []
   }
 }
