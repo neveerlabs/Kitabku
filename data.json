@@ -3,19 +3,6 @@
     "title": "Bab Sholat",
     "topics": [
       {
-        "id": "batal-sholat",
-        "title": "Pembatalan Sholat",
-        "content": "Yang dapat membatalkan sholat itu ada 11:<br>\n<ul>\n  <li><b>Berbicara</b></li>\n&emsp;Batalnya sholat apabila: berbicara dengan disengaja, kata yang diucapkan mengandung makna meskipun hanya dua atau satu huruf, selain bacaan tasbih, dzikir dan bacaan Qur'an. Berdehem juga dapat membatalkan sholat apabila karena disengaja atau terdapat maksud atau tujuan tertentu.\n<ul>\n  <li>Apabila misal pada saat dirukun sholat yang sunnah seseorang ingin bersin, berdehem atau batuk. Selagi masih dapat ditahan, maka lebih baik untuk ditahan selagi itu tidak mengganggu pada rukun sholat baik itu yang wajib atau yang sunnah. Tetapi, jika sudah tidak tahan, maka lakukan saja. Misal jika ditahan dapat mengganggu pada bacaan rukun sholat.((Lihat Hlm 17))<br><br><p style=\"text-align: center; font-weight: bold; font-size: 1.1rem;\">Quiztionary</p><quiz>Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya. Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya?. Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya?. Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya?</quiz>\n<answer>Wallahu a'lam</answer>\n</li>\n</ul>\n<ul>",
-        "tags": [
-          {
-            "tag": "Lihat Hlm 17",
-            "header": "Fathul Qorib فصل﴾ والّذي يبطل الصّلاة﴿",
-            "kitab": ""
-          }
-        ],
-        "previews": []
-      },
-      {
         "id": "sah-sholat",
         "title": "Syarat syarat sahnya sholat",
         "content": "",
@@ -42,6 +29,19 @@
             "kitab": "وعنه قال: قال رسول اللّه: ليس صلاة اثقل على المنافقين من صلاة الفجر والعشاء ولو يعلمون ما فيهما ﻷتوهما ولو حبوا. متّفق عليه"
           }
         ]
+      },
+      {
+        "id": "batal-sholat",
+        "title": "Pembatalan Sholat",
+        "content": "Yang dapat membatalkan sholat itu ada 11:<br>\n<ul>\n  <li><b>Berbicara</b></li>\n&emsp;Batalnya sholat apabila: berbicara dengan disengaja, kata yang diucapkan mengandung makna meskipun hanya dua atau satu huruf, selain bacaan tasbih, dzikir dan bacaan Qur'an. Berdehem juga dapat membatalkan sholat apabila karena disengaja atau terdapat maksud atau tujuan tertentu.\n<ul>\n  <li>Apabila misal pada saat dirukun sholat yang sunnah seseorang ingin bersin, berdehem atau batuk. Selagi masih dapat ditahan, maka lebih baik untuk ditahan selagi itu tidak mengganggu pada rukun sholat baik itu yang wajib atau yang sunnah. Tetapi, jika sudah tidak tahan, maka lakukan saja. Misal jika ditahan dapat mengganggu pada bacaan rukun sholat.((Lihat Hlm 17))<br><br><p style=\"text-align: center; font-weight: bold; font-size: 1.1rem;\">Quiztionary</p><quiz>Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya. Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya?. Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya?. Apabila misal saya ini sudah mati, apa yang akan terjadi setelahnya?</quiz>\n<answer>Wallahu a'lam</answer>\n</li>\n</ul>\n<ul>",
+        "tags": [
+          {
+            "tag": "Lihat Hlm 17",
+            "header": "Fathul Qorib فصل﴾ والّذي يبطل الصّلاة﴿",
+            "kitab": ""
+          }
+        ],
+        "previews": []
       }
     ]
   }
