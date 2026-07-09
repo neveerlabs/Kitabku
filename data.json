@@ -3,6 +3,13 @@
     "title": "Bab Sholat",
     "topics": [
       {
+        "id": "sholat-jamaah",
+        "title": "Keutamaan Sholat Berjama'ah",
+        "content": "<b>Hukum Sholat berjama'ah Menurut Para Ulama</b><br><br>\n&emsp;Hukum sholat berjama'ah menurut pendapat yang shoheh dalam madzhab Imam Syafi'i **Adalah fardu kifayah.**",
+        "tags": [],
+        "previews": []
+      },
+      {
         "id": "keutamaan-sholat-isya-shubuh",
         "title": "Keutamaan Sholat Isya & Shubuh",
         "content": "Dari sayyidina Utsman bin Affan R.A, ia mendengar ucapan dari Rosulullah SAW bersabda:<br>\n&emsp;**<i>\"Barang siapa yang sholat berjama'ah Isya, maka kaya kaya orang tersebut melaksanakan sholat setengah malam. Dan barang siapa yang sholat Shubuh berjama'ah, maka kaya kaya orang tersebut melaksanakan sholat satu malam penuh.\"</i>** HR. Muslim<br><br>\n\nHadits dari imam Tirmidzi pun menguatkan bahwa hadits diatas tersebut benar dan shoheh. ((Lihat Hlm 336))<br><br>\n\nDari Abu Hurairah R.A, ia berkata dari Rosulullah SAW:<br>\n&emsp;**<i>\"Seandainya mereka mengetahui ganjaran yang ada di sholat Isya dan Shubuh, niscaya mereka akan melaksanakan keduanya meskipun dengan merangkak (dalam keadaan ripuh)\"</i>**((Lihat Hlm 337))<br><br>\n\nJuga dari Abu Hurairah R.A, ia berkata bahwa Rasulullah SAW bersabda:<br>\n&emsp;**<i>\"Tidak ada sholat yang lebih berat bagi orang-orang yang munafik dari pada sholat Isya dan Shubuh. Seandainya mereka (orang munafik) mengetahui apa yang ada didalam keduanya, niscaya mereka akan mendatangi (melaksanakan)-nya, meskipun dalam keadaan merangkak\"</i>** ((Lihat Hlmn 337))",
@@ -10,7 +17,7 @@
           {
             "tag": "Lihat Hlm 336",
             "header": "Riyadhus Sholihin, bab باب الحث على حضور الجماعة في الصّبح والعشاء",
-            "kitab": "عن عثمان بن عفّان رضي اللّه عنه قال: سمعت رسول اللّه يقول: من صلّى العشاء في جماعة فكانّما قام نصف اللّيل,  ومن صلّى الصّبح في جماعة, فكانّما صلّى اللّيل كلّه. رواه مسلم.<br><br>\n\nوفي رواية التّرمذي عن عثمان بن عفّان رضي اللّه عنه قال: قال رسول اللّه: من شهد العشاء في جماعة كان له قيام نصف ليلة، ومن صلّى العشاء والفجر في جماعة، كان له كقيام ليلة. قال التّرمذي: حديث حسن صحيح."
+            "kitab": "عن عثمان بن عفّان رضي اللّه عنه قال: سمعت رسول اللّه يقول: من صلّى العشاء في جماعة فكانّما قام نصف اللّيل,  ومن صلّى الصّبح في جماعة, فكانّما صلّى اللّيل كلّه. رواه مسلم<br><br>\n\nوفي رواية التّرمذي عن عثمان بن عفّان رضي اللّه عنه قال: قال رسول اللّه: من شهد العشاء في جماعة كان له قيام نصف ليلة، ومن صلّى العشاء والفجر في جماعة، كان له كقيام ليلة. قال التّرمذي: حديث حسن صحيح."
           },
           {
             "tag": "Lihat Hlm 337",
@@ -24,11 +31,21 @@
           }
         ],
         "previews": []
+      },
+      {
+        "id": "pembatalan-sholat",
+        "title": "Pembatalannya Sholat",
+        "content": "<b>Yang dapat membatalkan sholat salah satunya sebagai berikut:</b><br>\n<ul>\n  <li><b>Berbicara</b></li>\n&emsp;Batalnya sholat apabila seseorang: Sengaja berbicara (seperti mengobrol), suara yang keluar dari mulut mengandung makna (walaupun se-huruf), berdehem yang mengandung makna, dan selain bacaan <b>Tasbih, Zikir</b> dan <b>Al Qur'an.</b><br><br>\n&emsp;Apabila seseorang yang sedang sholat, tubuhnya kedinginan (misal sholat shubuh) hingga tubuhnya menggerigil dan giginya bergesekkan hingga menimbulkan suara, **maka batal sholatnya.**\n<quiz>Apakah jika berdehem dapat membatalkan sholat?</quiz>\n<answer>Jawabannya, <b>Tidak.</b> Asalkan dehemnya itu disebabkan karena memang gatal pada tenggorokan (karena uzur) yang dapat menyebabkan mengganggu pada bacaan sholat, bukan dengan maksud atau isyarat yang mengandung makna tertentu.</answer>\n<quiz>Apakah jika tidak sengaja berbicara saat sholat dapat batal sholatnya?</quiz>\n<answer>Jawabannya, <b>Tidak membatalkan sholat</b>. Sepertikan macam kaget, atau karena reflek oleh sesuatu</answer><quiz>Apakah bersiul diperbolehkan dalam sholat?</quiz>\n<answer>Jawabannya, <b>Tidak diperbolehkan!</b> Karena, seolah olah sholat orang tersebut bermain main.</answer><quiz>Apakah jika seseorang yang asma saat sholat dapat membatalkan sholat?</quiz>\n<answer>Jawabannya, <b>Tidak membatalkan sholatnya</b>, karena apabila asma nya tersebut dari penyakit (uzur) dan bukan karena disengaja atau dimain mainkan</answer><br>\n  <li><b>Gerak tambahan</b></li>\n&emsp;Batalnya sholat apabila seseorang telah melakukan gerak tambahan lebih dari 3 kali gerakan secara terus menerus.\n</ul>",
+        "tags": [],
+        "previews": []
+      },
+      {
+        "id": "perkiraan-sholat",
+        "title": "Sholat Yang Diperkirakan",
+        "content": "<b>Sholat yang diperkirakan salah satunya sebagai berikut:</b><br>\n<ul>\n  <li><b>Jauhnya dari pemukiman</b></li>\n&emsp;Apabila misal rumah seseorang jauh dari pemukiman rumah warga dan masjid (tengah tengah hutan). Untuk mengetahui kapan waktu masuknya sholat, cukup dengan perkiraan atau keyakinan.\n</ul>",
+        "tags": [],
+        "previews": []
       }
     ]
-  },
-  "puasa": {
-    "title": "Bab Puasa",
-    "topics": []
   }
 }
