@@ -1,16 +1,4 @@
 {
-  "hadats": {
-    "title": "Bab Hadats",
-    "topics": [
-      {
-        "id": "pengertian-hadats",
-        "title": "Pengertian Hadats",
-        "content": "",
-        "tags": [],
-        "previews": []
-      }
-    ]
-  },
   "contoh": {
     "title": "Bab Sholat",
     "topics": [
@@ -61,6 +49,18 @@
         "id": "perkiraan-sholat",
         "title": "Sholat Yang Diperkirakan",
         "content": "<b>Sholat yang diperkirakan salah satunya sebagai berikut:</b><br>\n<ul>\n  <li><b>Jauhnya dari pemukiman</b></li>\n&emsp;Apabila misal rumah seseorang jauh dari pemukiman rumah warga dan masjid (tengah tengah hutan). Untuk mengetahui kapan waktu masuknya sholat, cukup dengan perkiraan atau keyakinan.\n</ul>",
+        "tags": [],
+        "previews": []
+      }
+    ]
+  },
+  "hadats": {
+    "title": "Bab Hadats",
+    "topics": [
+      {
+        "id": "pengertian-hadats",
+        "title": "Pengertian Hadats",
+        "content": "",
         "tags": [],
         "previews": []
       }
